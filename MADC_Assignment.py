@@ -180,7 +180,6 @@ def buy_hold_sell(new_df):
     buy_hold_sell_df = pd.DataFrame(buy_hold_sell)
     return buy_hold_sell_df
 
-
 def print_menu():
     print("""
     ***************************************
@@ -210,11 +209,17 @@ def main():
             buy_hold_sell_df = buy_hold_sell(new_df)
             # Display trade dataframe in a cleaner way
             print("\n===== MACD Trade Log =====")
-            print(trade_df[['Date', 'Trade', 'Price', 'Holdings', 'Capital', 'Profit', 'Commission_Lost']].to_string(index=False))
+            print(trade_df[['Date', 'Trade', 'Price', 'Holdings', 'Capital', 'Profit', 'Commission_Lost']].to_string(index=False))  
 
             # Display Buy-Hold-Sell comparison
             print("\n===== Buy-Hold-Sell Summary =====")
             print(buy_hold_sell_df.to_string(index=False))
+
+            #save stock series
+            with pd.ExcelWriter('stock_series.xlsx') as writer:  
+                trade_df.to_excel(writer, sheet_name='macd')
+                buy_hold_sell_df.to_excel(writer, sheet_name='buy_hold_sell')
+            print('Saved stock series to excel file')
 
             # Summary statistics
             total_trades = int(len(trade_df) / 2)
