@@ -207,19 +207,15 @@ def main():
             generate_signals(new_df)
             trade_df = macd_calculation(new_df)
             buy_hold_sell_df = buy_hold_sell(new_df)
-            # Display trade dataframe in a cleaner way
             print("\n===== MACD Trade Log =====")
-            print(trade_df[['Date', 'Trade', 'Price', 'Holdings', 'Capital', 'Profit', 'Commission_Lost']].to_string(index=False))  
-
-            # Display Buy-Hold-Sell comparison
+            print(trade_df)
             print("\n===== Buy-Hold-Sell Summary =====")
-            print(buy_hold_sell_df.to_string(index=False))
-
+            print(buy_hold_sell_df)
             #save stock series
             with pd.ExcelWriter('stock_series.xlsx') as writer:  
                 trade_df.to_excel(writer, sheet_name='macd')
                 buy_hold_sell_df.to_excel(writer, sheet_name='buy_hold_sell')
-            print('Saved stock series to excel file')
+            print('\nSaved stock series to excel file')
 
             # Summary statistics
             total_trades = int(len(trade_df) / 2)
@@ -227,7 +223,7 @@ def main():
             bhs = buy_hold_sell_df.iloc[1]['Capital']
             macd = trade_df.iloc[-1]['Capital']
 
-            # Pretty report
+            #report
             print("\n===== Strategy Comparison Report =====")
             print(f"Total number of completed MACD trades: {total_trades}")
             print(f"Average return per completed trade: ${avg_return:.2f}")
