@@ -1,4 +1,3 @@
-import queue
 import pandas as pd
 
 #read the csv file
@@ -193,6 +192,7 @@ def print_menu():
     """) 
 
 def main():
+    count = 1
     while True:
         print_menu()
         # Take user input
@@ -212,7 +212,7 @@ def main():
             print("\n===== Buy-Hold-Sell Summary =====")
             print(buy_hold_sell_df)
             #save stock series
-            with pd.ExcelWriter('stock_series.xlsx') as writer:  
+            with pd.ExcelWriter(f'stock_series_{calculation}_{count}.xlsx') as writer:  
                 trade_df.to_excel(writer, sheet_name='macd')
                 buy_hold_sell_df.to_excel(writer, sheet_name='buy_hold_sell')
             print('\nSaved stock series to excel file')
@@ -225,6 +225,8 @@ def main():
 
             #report
             print("\n===== Strategy Comparison Report =====")
+            print(f'Initial Captial: $100,000')
+            print(f'MACD calculation type: {calculation}')
             print(f"Total number of completed MACD trades: {total_trades}")
             print(f"Average return per completed trade: ${avg_return:.2f}")
             print(f"Final Capital using Buy-Hold-Sell strategy: ${bhs:,.2f}")
@@ -236,6 +238,7 @@ def main():
                 print(f"📉 Buy-Hold-Sell strategy outperformed MACD by: ${bhs - macd:,.2f}")
             else:
                 print("⚖️ Both strategies resulted in the same capital.")
+            count+=1
         elif user_choice == "0":
             print("Exiting program...")
             break
