@@ -192,7 +192,6 @@ def print_menu():
     """) 
 
 def main():
-    count = 1
     while True:
         print_menu()
         # Take user input
@@ -212,7 +211,7 @@ def main():
             print("\n===== Buy-Hold-Sell Summary =====")
             print(buy_hold_sell_df)
             #save stock series
-            with pd.ExcelWriter(f'stock_series_{calculation}_{count}.xlsx') as writer:  
+            with pd.ExcelWriter(f'stock_series_{calculation}.xlsx') as writer:  
                 trade_df.to_excel(writer, sheet_name='macd')
                 buy_hold_sell_df.to_excel(writer, sheet_name='buy_hold_sell')
             print('\nSaved stock series to excel file')
@@ -238,7 +237,6 @@ def main():
                 print(f"📉 Buy-Hold-Sell strategy outperformed MACD by: ${bhs - macd:,.2f}")
             else:
                 print("⚖️ Both strategies resulted in the same capital.")
-            count+=1
         elif user_choice == "0":
             print("Exiting program...")
             break
